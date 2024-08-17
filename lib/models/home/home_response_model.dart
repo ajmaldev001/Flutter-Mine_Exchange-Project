@@ -1,21 +1,21 @@
-class HomeScreenModel {
+class HomeResponseModel {
   final int? statusCode;
   final bool? status;
   final String? message;
-  final List<Data>? data;
+  final List<HomeListData>? data;
 
-  HomeScreenModel({
+  HomeResponseModel({
     this.statusCode,
     this.status,
     this.message,
     this.data,
   });
 
-  HomeScreenModel.fromJson(Map<String, dynamic> json)
+  HomeResponseModel.fromJson(Map<String, dynamic> json)
     : statusCode = json['status_code'] as int?,
       status = json['status'] as bool?,
       message = json['message'] as String?,
-      data = (json['data'] as List?)?.map((dynamic e) => Data.fromJson(e as Map<String,dynamic>)).toList();
+      data = (json['data'] as List?)?.map((dynamic e) => HomeListData.fromJson(e as Map<String,dynamic>)).toList();
 
   Map<String, dynamic> toJson() => {
     'status_code' : statusCode,
@@ -25,7 +25,7 @@ class HomeScreenModel {
   };
 }
 
-class Data {
+class HomeListData {
   final Location? location;
   final String? id;
   final SellerId? sellerId;
@@ -56,7 +56,7 @@ class Data {
   final String? ownerSignatureImage;
   final bool? isEnquired;
 
-  Data({
+  HomeListData({
     this.location,
     this.id,
     this.sellerId,
@@ -88,7 +88,7 @@ class Data {
     this.isEnquired,
   });
 
-  Data.fromJson(Map<String, dynamic> json)
+  HomeListData.fromJson(Map<String, dynamic> json)
     : location = (json['location'] as Map<String,dynamic>?) != null ? Location.fromJson(json['location'] as Map<String,dynamic>) : null,
       id = json['_id'] as String?,
       sellerId = (json['seller_id'] as Map<String,dynamic>?) != null ? SellerId.fromJson(json['seller_id'] as Map<String,dynamic>) : null,

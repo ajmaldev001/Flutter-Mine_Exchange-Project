@@ -14,7 +14,9 @@ class ReusableCardsTextWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Text(
-        text,
+        text.isNotEmpty ? text : 'NA',
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
         style: GoogleFonts.roboto(
           fontSize: fontSize ?? 14,
           fontWeight: FontWeight.w500,

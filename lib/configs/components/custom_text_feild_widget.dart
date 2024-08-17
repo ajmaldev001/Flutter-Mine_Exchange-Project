@@ -34,7 +34,7 @@ class CustomTextFeildWidget extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 8.0),
           child: TextButton.icon(
             onPressed: () {
-              // print('Button Pressed');
+              Navigator.pushNamed(context, '/filter_screen');
             },
             style: ButtonStyle(
               iconColor: WidgetStateProperty.all<Color>(AppColor.black),

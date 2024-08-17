@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mine_exchange_project/view/home/widgets/reusable_text_widget.dart';
 
 class CardIconsWidget extends StatelessWidget {
+  final String metalName;
+  final String location;
+  final String exploration;
+  final String money;
   const CardIconsWidget({
-    super.key,
+    super.key, 
+    required this.metalName, 
+    required this.location, 
+    required this.exploration, 
+    required this.money,
   });
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return  Row(
      crossAxisAlignment: CrossAxisAlignment.start,
      children: [
         Expanded(
@@ -17,17 +25,17 @@ class CardIconsWidget extends StatelessWidget {
            children: [
              Row(
                children: [
-                 Icon(Icons.business_center, size: 16, color: Colors.grey),
-                 SizedBox(width: 5),
-                 ReusableCardsTextWidget(text: 'Energy Metals'),
+                 const Icon(Icons.business_center, size: 16, color: Colors.grey),
+                 const SizedBox(width: 5),
+                 ReusableCardsTextWidget(text: metalName),
                ],
              ),
-             SizedBox(height: 10),
+             const SizedBox(height: 10),
              Row(
                children: [
-                 Icon(Icons.location_on, size: 16, color: Colors.grey),
-                 SizedBox(width: 5),
-                 ReusableCardsTextWidget(text: 'Energy Metals')
+                 const Icon(Icons.location_on, size: 16, color: Colors.grey),
+                 const SizedBox(width: 5),
+                 ReusableCardsTextWidget(text: location)
                ],
              ),
            ],
@@ -39,20 +47,20 @@ class CardIconsWidget extends StatelessWidget {
          child: Column(
            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
            children: [
-             Row(
+              Row(
                children: [
-                 Icon(Icons.business_center, size: 16, color: Colors.grey),
-                 SizedBox(width: 5),
-                 ReusableCardsTextWidget(text: 'North America'),
+                 const Icon(Icons.work_off, size: 16, color: Colors.grey),
+                 const SizedBox(width: 5),
+                 ReusableCardsTextWidget(text: exploration),
                ],
              ),
-             SizedBox(height: 10),
+             const SizedBox(height: 10),
              Row(
                crossAxisAlignment: CrossAxisAlignment.start,
                children: [
-                 Icon(Icons.money_off_csred, size: 16, color: Colors.grey),
-                 SizedBox(width: 5),
-                 ReusableCardsTextWidget(text: '\$1,999,999 - \$2,999,999')
+                 const Icon(Icons.attach_money_outlined, size: 16, color: Colors.grey),
+                 const SizedBox(width: 5),
+                 ReusableCardsTextWidget(text: money)
                ],
              ),
            ],

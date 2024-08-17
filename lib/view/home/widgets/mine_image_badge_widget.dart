@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mine_exchange_project/configs/color/colors.dart';
 import 'package:flutter_mine_exchange_project/configs/consts/image_constants.dart';
+import 'package:flutter_mine_exchange_project/configs/themes/theme_text.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MineImageWithBadgeWdget extends StatelessWidget {
+  final String minesNetworkImage;
+  final String lease;
+  final String status;
   const MineImageWithBadgeWdget({
-    super.key,
+    super.key, 
+    required this.minesNetworkImage, 
+    required this.lease, 
+    required this.status,
   });
 
   @override
@@ -14,10 +21,16 @@ class MineImageWithBadgeWdget extends StatelessWidget {
       children: [
         ClipRRect(
           child: Image.asset(
-            ImageConstants.mineImage, // Placeholder image
+            ImageConstants.sampleMineImage,
             height: 180,
             width: double.infinity,
+            alignment: Alignment.center,
             fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => 
+              SizedBox(
+                height: 180,
+                child: Center(child: Text('Error while loading image',
+                style: ThemeStyles.commonRobotoTheme.copyWith(color: AppColor.red),))),
           ),
         ),
         Positioned(
@@ -31,13 +44,16 @@ class MineImageWithBadgeWdget extends StatelessWidget {
             ),
             child: Row(
               children: [
-                  const CircleAvatar(
+               CircleAvatar(
                   radius: 6,
-                  backgroundColor: AppColor.red,
+                  backgroundColor: 
+                  status == '1'
+                  ? AppColor.green
+                  : AppColor.yellow,
                 ),
                 const SizedBox(width: 6),
                 Text(
-                  'Joint Venture',
+                  lease.isNotEmpty ? lease : 'NA',
                   style: GoogleFonts.roboto(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,

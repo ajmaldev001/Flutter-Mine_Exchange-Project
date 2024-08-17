@@ -10,4 +10,6 @@ class AppColor{
   static const Color mildGrey = Color(0xFFbbbbbb);
   static const Color red = Colors.red;
   static Color? lightGrey = Colors.grey[300];
+  static const Color green = Colors.green;
+  static const Color yellow = Colors.yellow;
 }

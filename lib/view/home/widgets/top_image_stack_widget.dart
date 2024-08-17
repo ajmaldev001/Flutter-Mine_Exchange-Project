@@ -20,7 +20,7 @@ class TopImageStackWidget extends StatelessWidget {
           decoration: BoxDecoration(
             color: AppColor.black,
             image: DecorationImage(
-              image: const AssetImage(ImageConstants.mineImage),
+              image: const AssetImage(ImageConstants.mineImg),
               fit: BoxFit.cover,
                 colorFilter: ColorFilter.mode(
                   AppColor.black.withOpacity(0.3),

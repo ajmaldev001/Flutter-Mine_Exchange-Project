@@ -33,7 +33,7 @@ class HeaderNameLogoWidget extends StatelessWidget {
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage(ImageConstants.mineImage))
+                    image: AssetImage(ImageConstants.mineImg))
                 ),
               ),
               Expanded(

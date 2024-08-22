@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mine_exchange_project/configs/color/colors.dart';
 import 'package:flutter_mine_exchange_project/configs/themes/theme_text.dart';
 
 class CustomDropdownButton extends StatefulWidget {
@@ -6,11 +7,13 @@ class CustomDropdownButton extends StatefulWidget {
   final List<dynamic>? items;
   final  String? selectedItem;
   final String hintText;
+  final double menuHeight;
   const CustomDropdownButton({
     this.items,
     required this.selectedItem,
     required this.onChanged,
     required this.hintText,
+    required this.menuHeight,
     Key? key,
   }) : super(key: key);
 
@@ -29,6 +32,16 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
      });
   }
 
+  @override
+  void didUpdateWidget(covariant CustomDropdownButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedItem != selectedItem) {
+      setState(() {
+        selectedItem = widget.selectedItem ?? '';
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +52,8 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.0)),
       ),
       child: DropdownButtonFormField<String>(
+        menuMaxHeight: widget.menuHeight,
+        dropdownColor: AppColor.lightGrey,
         decoration: const InputDecoration(
           border: InputBorder.none,
         ),
@@ -52,13 +67,15 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
             .map(
               (item) => DropdownMenuItem<String>(
                 value: item,
-                child: Column(
-                  children: [
-                    Text(
-                      item[0].toUpperCase() + item.substring(1),
-                      style: ThemeStyles.blackTheme16,
-                    ),
-                  ],
+                child: SizedBox(
+                  child: Column(
+                    children: [
+                      Text(
+                        item[0].toUpperCase() + item.substring(1),
+                        style: ThemeStyles.blackTheme16,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter_mine_exchange_project/configs/color/colors.dart';
 import 'package:intl/intl.dart';
 
 abstract class Utils {
@@ -8,8 +9,12 @@ abstract class Utils {
     }
 
     static Color hexColor(String hexColor) {
-      String formattedColor = hexColor.replaceAll("#", "0xFF");
+      if(hexColor.isNotEmpty){
+        String formattedColor = hexColor.replaceAll("#", "0xFF");
       return Color(int.parse(formattedColor));
+      }else{
+        return AppColor.white;
+      }
     }
 
     static String convertDate(String? dateString) {

@@ -19,7 +19,7 @@ class MinesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 8.0,
-      margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 8.0),
+      margin: const EdgeInsets.symmetric(horizontal: 16,vertical: 12.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(6),
       ),
@@ -28,9 +28,10 @@ class MinesCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              
               // Top bar widget
               TopBarWidget(
-              companyName: homeListData[index].companyName ?? 'NA', 
+              companyName: homeListData[index].sellerId?.companyName ?? '', 
               personaName: '${homeListData[index].sellerId?.firstName}', 
               topBarColorCode: homeListData[index].sellerId?.colourCode ?? '', 
               textColor: homeListData[index].sellerId?.colourCode ?? '',
@@ -38,7 +39,7 @@ class MinesCard extends StatelessWidget {
               
               // Image with badge overlay
               MineImageWithBadgeWdget(
-                minesNetworkImage: homeListData[index].image?.map((e) => e.url).toString() ?? '', 
+                minesNetworkImage: homeListData[index].sellerId?.companyLogo ?? '', 
                 status: homeListData[index].sellerId?.status.toString() ?? '', 
                 lease:  homeListData[index].intension ?? '',
               ),
@@ -64,9 +65,9 @@ class MinesCard extends StatelessWidget {
                               fontSize:  14,
                               fontWeight: FontWeight.w500,
                               color: Colors.grey[700],
+                              ),
                             ),
                           ),
-                        ),
                         ],
                       ),
                      const SizedBox(height: 5),
@@ -91,7 +92,7 @@ class MinesCard extends StatelessWidget {
                         exploration: homeListData[index].commodity ?? '', 
                         location: homeListData[index].region ?? '', 
                         metalName: homeListData[index].name ?? ''
-                     ),
+                      ),
 
                      const SizedBox(height: 5),
                   ],

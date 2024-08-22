@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mine_exchange_project/configs/color/colors.dart';
 import 'package:flutter_mine_exchange_project/configs/components/custom_buttom_widget.dart';
 import 'package:flutter_mine_exchange_project/configs/components/custom_drop_down_widget.dart';
+import 'package:flutter_mine_exchange_project/configs/components/custom_success_and_error_handler.dart';
 import 'package:flutter_mine_exchange_project/configs/consts/text_constants.dart';
 import 'package:flutter_mine_exchange_project/configs/themes/theme_text.dart';
 import 'package:flutter_mine_exchange_project/view/filter/widgets/custom_check_box_list.dart';
-import 'package:flutter_mine_exchange_project/view/filter/widgets/custom_radio_button_list.dart';
-import 'package:flutter_mine_exchange_project/view/filter/widgets/filter_section_widget.dart';
+import 'package:flutter_mine_exchange_project/view/filter/widgets/reusable_filter_radio_btn_widget.dart';
 import 'package:flutter_mine_exchange_project/view_model/filter/filter_view_model.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 class FilterScreen extends StatefulWidget {
@@ -52,7 +53,7 @@ class _FilterScreenState extends State<FilterScreen> {
             builder: (context,snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting){
                 return Container();
-              }else if(snapshot.hasError){
+              } else if(snapshot.hasError){
                 return Container(
                   alignment: Alignment.center,
                   child: Text(
@@ -60,9 +61,9 @@ class _FilterScreenState extends State<FilterScreen> {
                     style: ThemeStyles.blackTheme16.copyWith(color: AppColor.red),
                   ),
                 );
-              }else if (snapshot.connectionState == ConnectionState.done){
+              } else if (snapshot.connectionState == ConnectionState.done){
                  return Consumer<FilterViewModel>(
-                      builder: (context,value,child) {
+                      builder: (context,filterViewModelData,child) {
                       return Container(
                       color: AppColor.lightGrey,
                       child:  SingleChildScrollView(
@@ -71,72 +72,73 @@ class _FilterScreenState extends State<FilterScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             
-                            Text(TextConstants.location, style: ThemeStyles.blackBold16),
-                            
-                            const ReUsableFilterRowWidget(
-                              optionOne: ['Asia', 'North America','Europe'], 
-                              optionTwo: ['Africa', 'South America','Australia'],
-                            ),
+                            /* Continent Section */
+                            filterViewModelData.filterResponseModel?.data?.continents?.isNotEmpty ?? false
+                            ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(TextConstants.location, style: ThemeStyles.blackBold16),
+                                ReUsableFilterRadioBtnWidget(
+                                  items: filterViewModelData.filterResponseModel?.data?.continents ?? [], 
+                                  onChanged: (value) { 
+                                    filterViewModelData.selectContinent(value!);
+                                   }, 
+                                  selectedOption: filterViewModelData.selectedContinents!,
+                                ),
+                              ],
+                            )
+                            : Container(),
                             
                             const SizedBox(height: 8.0),
+
+                            /* Commodity Sector */
                             Text(TextConstants.commoditySector, style: ThemeStyles.blackBold16),
-                            
-                            const ReUsableFilterRowWidget(
-                              optionOne: ['All Sectors', 'Precious Metals', 'Bulk Commodities','Industry Minerals'], 
-                              optionTwo: ['Base Metals', 'Energy Metals', 'Speciality Metals'],
+                            ReUsableFilterRadioBtnWidget(
+                              items: filterViewModelData.promptValues ?? [], 
+                              onChanged: (value) { 
+                              filterViewModelData.retreiveItemsFromFilterData(value ?? '');
+                              filterViewModelData.selectCommoditySector(value!);
+                               }, 
+                               selectedOption: filterViewModelData.selectedCommoditySector!, 
                             ),
                       
                             const SizedBox(height: 8.0),
                             Text(TextConstants.individualCommodities, style: ThemeStyles.blackBold16),
                             
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: FilterSection(
-                                    key: UniqueKey(),
-                                    child: const CustomCheckBoxList(
-                                      options: [
-                                        'All Commodities', 'Gold', 'Silver', 'Copper', 'Nickel', 'Iron Ore',
-                                        'Lithium', 'Magnesium', 'Zinc', 'Platinum', 'Palladium',
-                                        'Cobalt', 'Graphite', 'Rare Earths', 'Thermal Coal',
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: FilterSection(
-                                    key: UniqueKey(),
-                                    child: const CustomCheckBoxList(
-                                      options: [
-                                        'All Commodities', 'Gold', 'Silver', 'Copper', 'Nickel', 'Iron Ore',
-                                        'Lithium', 'Magnesium', 'Zinc', 'Platinum', 'Palladium',
-                                        'Cobalt', 'Graphite', 'Rare Earths', 'Thermal Coal',
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
+                            ReUsableFilterCheckBoxWidget(
+                              options: filterViewModelData.metals,
                             ),
                             
+                            /* Project Stage Asset */
                             const SizedBox(height: 8.0),
                             Text(TextConstants.projectStageAsset, style: ThemeStyles.blackBold16),
-                            const ReUsableFilterRowWidget(
-                              optionOne: ['Care and Maintenance', 'Production','Advanced Stage Exploration'], 
-                              optionTwo: ['Care and Maintenance', 'Production',],
+                             ReUsableFilterRadioBtnWidget(
+                              items: filterViewModelData.projectStageAssetItems, 
+                              onChanged: (value) { 
+                                filterViewModelData.selectProjectStageAsset(value ?? '');
+                               }, 
+                              selectedOption: filterViewModelData.selectedProjectStageAsset!, 
                             ),
                                       
                             
                             const SizedBox(height: 8.0),
+                            /* Intention */
                             const Text(TextConstants.intention, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                            
-                            const ReUsableFilterRowWidget(
-                              optionOne: ['Form In/ Farm Out', 'Joint Venture','Option'], 
-                              optionTwo: ['Direct Sale', 'Lease','All Offers'],
+                            ReUsableFilterRadioBtnWidget(
+                              items: filterViewModelData.intentionItems, 
+                              onChanged: (value) { 
+                                filterViewModelData.selectIntention(value ?? '');
+                               }, 
+                             selectedOption: filterViewModelData.selectedIntention!, 
                             ),
                                       
                             const SizedBox(height: 8.0),
-                            const Text(TextConstants.priceRange, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                            const Text(
+                              TextConstants.priceRange, 
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
+                            ),
                             const SizedBox(height: 14.0),
+                            
                             Row(
                               children: [
                                 Expanded(
@@ -146,11 +148,13 @@ class _FilterScreenState extends State<FilterScreen> {
                                       Text('Min',style: ThemeStyles.blackBold16),
                                       const SizedBox(height: 4.0),
                                       CustomDropdownButton(
-                                        selectedItem: '',
-                                        items: const ['Select','A','B','C'],
-                                        hintText: 'Min',
+                                        selectedItem: filterViewModelData.selectedMinPriceItem,
+                                        items: ['Any',...filterViewModelData.minPriceRangeItems],
+                                        hintText: 'Any',
                                         onChanged: (value){
-                                        }
+                                          filterViewModelData.selectedMinPriceItem = value ?? '';
+                                        }, 
+                                        menuHeight: ScreenUtil().screenHeight * 0.3,
                                       ),
                                     ],
                                   ),
@@ -163,11 +167,13 @@ class _FilterScreenState extends State<FilterScreen> {
                                       Text('Max',style: ThemeStyles.blackBold16),
                                       const SizedBox(height: 4.0),
                                       CustomDropdownButton(
-                                        selectedItem: '',
-                                        items: const ['Select','A','B','C'],
-                                        hintText: 'Max',
+                                        selectedItem: filterViewModelData.selectedMaxPriceItem,
+                                        items:  ['Any',...filterViewModelData.maxPriceRangeItems],
+                                        hintText: 'Any',
                                         onChanged: (value){
-                                        }
+                                          filterViewModelData.selectedMaxPriceItem = value ?? '';
+                                        },
+                                        menuHeight: ScreenUtil().screenHeight * 0.3
                                       ),
                                     ],
                                   ),
@@ -177,7 +183,7 @@ class _FilterScreenState extends State<FilterScreen> {
                           ],
                         ),
                       ),
-                                      );
+                     );
                     }
                   );
               }
@@ -190,9 +196,12 @@ class _FilterScreenState extends State<FilterScreen> {
             child: Row(
               children: [
                 Expanded(
-                  child: Text(TextConstants.clearFilter,
-                  textAlign: TextAlign.center,
-                  style: ThemeStyles.blackTheme16.copyWith(fontWeight: FontWeight.bold)
+                  child: InkWell(
+                    onTap: () => context.read<FilterViewModel>().clearFilter(),
+                    child: Text(TextConstants.clearFilter,
+                    textAlign: TextAlign.center,
+                    style: ThemeStyles.blackTheme16.copyWith(fontWeight: FontWeight.bold)
+                    ),
                   )
                 ),
                 Expanded(
@@ -203,7 +212,15 @@ class _FilterScreenState extends State<FilterScreen> {
                       buttonHeight: 50,
                       buttonTextColor: AppColor.white,
                       buttonColor: AppColor.black,
-                      onPressed: (){}, 
+                      onPressed: (){
+                        Navigator.pushNamed(context, '/');
+                        CommonSuccessAndErrorHandler.handleMethod(
+                          context: context,
+                          backgroundColor: AppColor.green,
+                          changeIcons: true,
+                          message: 'Filter has been applied'
+                          );
+                      }, 
                       buttonWidth: double.infinity,
                       borderRadius: 8,
                     ),
@@ -213,44 +230,6 @@ class _FilterScreenState extends State<FilterScreen> {
             ),
           ),
         );
-      // }
-    // );
-  }
-}
-
-class ReUsableFilterRowWidget extends StatelessWidget {
-  final List<String> optionOne;
-  final List<String> optionTwo;
-  const ReUsableFilterRowWidget({
-    super.key, 
-    required this.optionOne, 
-    required this.optionTwo,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-     crossAxisAlignment: CrossAxisAlignment.start,
-     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-     children: [
-       Expanded(
-         child: FilterSection(
-           key: UniqueKey(),
-           child:  CustomRadioButtonList(
-             options: optionOne,
-           ),
-         ),
-       ),
-       Expanded(
-         child: FilterSection(
-           key: UniqueKey(),
-           child: CustomRadioButtonList(
-             options: optionTwo,
-           ),
-         ),
-       ),
-     ],
-    );
   }
 }
 

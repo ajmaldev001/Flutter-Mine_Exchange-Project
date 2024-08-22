@@ -4,17 +4,17 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_mine_exchange_project/configs/themes/theme_text.dart';
 
 
-class CommonErrorHandler {
-  static handleError({
-    required BuildContext context, // Pass the context
+class CommonSuccessAndErrorHandler {
+  static handleMethod({
+    required BuildContext context,
     Exception? exception,
-    String errorMessage = '',
+    String message = '',
     Color? backgroundColor,
     bool changeIcons = false,
   }) {
     
-    String errorText = errorMessage.isNotEmpty ? errorMessage : 'Something error occurred';
-    IconData icon = changeIcons ? Icons.warning : Icons.error;
+    String text = message.isNotEmpty ? message : 'Something error occurred';
+    IconData icon = changeIcons ? Icons.check_circle : Icons.error;
     Color snackbarBackgroundColor = backgroundColor ?? AppColor.red;
 
     // Using SchedulerBinding to show the Snackbar after the build completes
@@ -26,7 +26,7 @@ class CommonErrorHandler {
             child: ListTile(
               dense: true,
               title: Text(
-                errorText,
+                text,
                 style: ThemeStyles.whiteTheme16,
               ),
               trailing: Icon(icon, color: AppColor.white),

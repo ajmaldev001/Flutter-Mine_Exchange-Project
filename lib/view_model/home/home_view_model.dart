@@ -11,9 +11,7 @@ class HomeViewModel extends ChangeNotifier{
       if (response.data != null) {
        homeResponseModel = response;
        notifyListeners();
-       debugPrint('homeResponseModel: ${homeResponseModel?.data?.map((e) => e.id ?? '').toList() ?? []}');
       } else {
-        debugPrint("No data found");
       }
     }
 

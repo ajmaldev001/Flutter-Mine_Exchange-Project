@@ -18,8 +18,6 @@ class TopBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('topBarColorCode : $topBarColorCode');
-    debugPrint('textColor : $textColor');
     return Container(
       height: 30,
       decoration: BoxDecoration(
@@ -39,10 +37,10 @@ class TopBarWidget extends StatelessWidget {
             Text(
               companyName,
               style: ThemeStyles.commonRobotoTheme.copyWith(
-                color: 
-                textColor.isEmpty || textColor == '#000000'
-                ? AppColor.white 
-                : Utils.hexColor(textColor)
+                color: AppColor.white,
+                // textColor.isEmpty || textColor == '#000000'
+                // ? AppColor.white 
+                // : Utils.hexColor(textColor)
               )
             ),
             Padding(

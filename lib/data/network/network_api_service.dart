@@ -10,7 +10,6 @@ class NetworkApiService extends BaseApiServices{
  @override
   Future<dynamic> getMinesData(String url) async {
    try{
-    debugPrint('Api Is Called $url');
      final response = await http.get(Uri.parse(url));
      debugPrint('response.body.toString() ${response.body.toString()}');
      return responseJson = returnResponse(response);
@@ -22,7 +21,6 @@ class NetworkApiService extends BaseApiServices{
   @override
   Future<dynamic> getMinesFilterData(String url) async {
    try{
-     debugPrint('Api Is Called $url');
      final response = await http.get(Uri.parse(url));
       debugPrint('response.body.toString() ${response.body.toString()}');
      return responseJson = returnResponse(response);

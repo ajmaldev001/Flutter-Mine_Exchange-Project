@@ -28,12 +28,12 @@ class HeaderNameLogoWidget extends StatelessWidget {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 alignment: Alignment.center,
-                height: 50.h,
-                width: 50.w,
+                height: 70.h,
+                width: 70.w,
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: AssetImage(ImageConstants.mineImg))
+                    image: AssetImage(ImageConstants.logoImg))
                 ),
               ),
               Expanded(
